@@ -1,0 +1,15 @@
+# Włącz mod_rewrite, aby umożliwić przekierowania i przyjazne URL
+RewriteEngine On
+
+# Ustawienie domyślnego pliku indeksowego
+DirectoryIndex index.php index.html
+
+# Przekierowanie wszystkich żądań do index.php, z wyjątkiem istniejących plików i katalogów
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+
+# Zezwól na dostęp do plików w katalogu, ale blokuj dostęp do ukrytych plików (np. .git)
+Options Indexes FollowSymLinks
+
+

@@ -1,0 +1,7 @@
+/vendor/
+public/templates_c/
+/node_modules/
+/*.log
+*.env
+
+.idea/
