@@ -3,6 +3,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Slim\Factory\AppFactory;
 
+
 $app = AppFactory::create();
 
 $templateDir = __DIR__ . '/../templates';
@@ -47,24 +48,7 @@ $app->get('/test', function ($request, $response) use ($templateDir, $compileDir
     return $response;
 });
 
-// Nowy endpoint POST /update-video
-$app->post('/upload-video', function ($request, $response) use ($templateDir, $compileDir) {
-    $smarty = new \Smarty();
-    $smarty->setTemplateDir($templateDir);
-    $smarty->setCompileDir($compileDir);
-
-    // Pobranie danych POST z requestu
-    $data = $request->getParsedBody();
-    $chunkIndex = htmlspecialchars($data['chunkIndex'] ?? '');  // Dla bezpieczeństwa użyj htmlspecialchars
-    $totalChunks = htmlspecialchars($data['totalChunks'] ?? '');
-
-    // Przypisanie danych do szablonu Smarty
-    $smarty->assign('chunkIndex', $chunkIndex);
-    $smarty->assign('totalChunks', $totalChunks);
-
-    // Renderowanie szablonu update-video.tpl z przekazanymi danymi
-    $response->getBody()->write($smarty->fetch('update-video.tpl'));
-    return $response;
-});
+// Przeniesiony endpoint POST /upload-video
+$app->post('/upload-video', new \App\Handlers\UploadVideoHandler($templateDir, $compileDir));
 
 $app->run();
